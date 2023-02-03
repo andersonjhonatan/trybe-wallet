@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { connect, useDispatch } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 import { addEmail } from '../redux/actions';
 
-function Login({ history }) {
+function Login() {
   const number = 6;
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
@@ -20,6 +20,7 @@ function Login({ history }) {
   }, [validacaoEmail, validacaoSenha]);
 
   const dispatch = useDispatch();
+  const history = useHistory();
   const handleSubmit = () => {
     dispatch(addEmail(email));
     history.push('/carteira');
@@ -56,7 +57,3 @@ function Login({ history }) {
   );
 }
 export default connect()(Login);
-
-Login.propTypes = {
-  history: PropTypes.shape().isRequired,
-};

@@ -1,18 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { listaDeCurrencies } from '../redux/reducers/wallet';
 
 function WalletForm() {
-  const [currencies, setCurrencies] = useState([]);
+  const moedas = useSelector(({ wallet: { currencies } }) => currencies);
+  console.log(moedas);
 
+  const dispatch = useDispatch();
   useEffect(() => {
-    async function fetchData() {
-      const response = await fetch('https://economia.awesomeapi.com.br/json/all');
-      const data = await response.json();
-      const currenciesArray = Object.keys(data).filter((currency) => currency !== 'USDT');
-      setCurrencies(currenciesArray);
-    }
-
-    fetchData();
-  }, []);
+    dispatch(listaDeCurrencies());
+  }, [dispatch]);
 
   return (
     <div>
@@ -24,10 +21,8 @@ function WalletForm() {
         <label htmlFor="currency-input">
           Moeda:
           <select data-testid="currency-input">
-            {currencies.map((currency) => (
-              <option key={ currency } value={ currency }>
-                {currency}
-              </option>
+            {moedas.map((item, index) => (
+              <option key={ index }>{item}</option>
             ))}
           </select>
         </label>
