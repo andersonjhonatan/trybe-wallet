@@ -1,5 +1,6 @@
 export const ADD_EMAIL = 'ADD_EMAIL';
 export const ADD_CURRENCIES = 'ADD_CURRENCIES';
+export const ADD_EXPENSES = 'ADD_EXPENSES';
 
 export const addEmail = (email) => ({
   type: ADD_EMAIL,
@@ -9,4 +10,9 @@ export const addEmail = (email) => ({
 export const addMoedas = (currencies) => ({
   type: ADD_CURRENCIES,
   payload: currencies,
+});
+
+export const addExpenses = (expenses) => ({
+  type: ADD_EXPENSES,
+  payload: expenses,
 });

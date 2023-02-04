@@ -1,14 +1,22 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { ADD_CURRENCIES } from '../actions';
+import { ADD_CURRENCIES, ADD_EXPENSES } from '../actions';
 
 const INICIO = {
   currencies: [],
+  expenses: [],
 };
 
 const currReducer = (state = INICIO, action) => {
+  const objeto = {
+    id: state.expenses.length === 0 ? 0 : state.expenses.length,
+    ...action.payload,
+  };
+
   switch (action.type) {
   case ADD_CURRENCIES:
     return { ...state, currencies: action.currencies };
+  case ADD_EXPENSES:
+    return { ...state, expenses: [...state.expenses, objeto] };
   default:
     return state;
   }
@@ -17,11 +25,8 @@ const currReducer = (state = INICIO, action) => {
 export const listaDeCurrencies = () => async (dispatch) => {
   const response = await fetch('https://economia.awesomeapi.com.br/json/all');
   const data = await response.json();
-  /* console.log(data); */
   const currencies = Object.keys(data).filter((index) => index !== 'USDT');
-  /* console.log(currencies); */
   dispatch({ type: ADD_CURRENCIES, currencies });
 };
-listaDeCurrencies();
 
 export default currReducer;
