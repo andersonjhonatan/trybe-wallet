@@ -70,9 +70,9 @@ function WalletForm() {
             onChange={ handleChange }
             name="method"
           >
-            <option value="Dinheiro">Dinheiro</option>
-            <option value="Cartão de crédito">Cartão de crédito</option>
-            <option value="Cartão de débito">Cartão de débito</option>
+            <option>Dinheiro</option>
+            <option>Cartão de débito</option>
+            <option>Cartão de crédito</option>
           </select>
         </label>
         <label htmlFor="tag-input">
