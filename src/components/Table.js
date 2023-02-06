@@ -1,8 +1,15 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { removeTask } from '../redux/actions';
 
 function Table() {
   const addExpense = useSelector(({ wallet: { expenses } }) => expenses);
+  const dispatch = useDispatch();
+
+  const handleClick = (id) => {
+    dispatch(removeTask(id));
+  };
+
   return (
     <div>
       <table>
@@ -20,7 +27,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {addExpense.map(({
+          {addExpense?.map(({
             id,
             value,
             method,
@@ -28,7 +35,7 @@ function Table() {
             description,
             exchangeRates,
             currency,
-          }) => (
+          }, index) => (
             <tr key={ id }>
               <td>{description}</td>
               <td>{tag}</td>
@@ -44,7 +51,13 @@ function Table() {
               <td>Real</td>
               <td>
                 <button>Editar</button>
-                <button>Excluir</button>
+                <button
+                  data-testid="delete-btn"
+                  type="button"
+                  onClick={ () => handleClick(index) }
+                >
+                  Excluir
+                </button>
               </td>
             </tr>
           ))}

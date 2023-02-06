@@ -58,7 +58,7 @@ function WalletForm() {
             name="currency"
             value={ form.currency || '' }
           >
-            {moedas.map((item, index) => (
+            {moedas?.map((item, index) => (
               <option key={ index }>{item}</option>
             ))}
           </select>

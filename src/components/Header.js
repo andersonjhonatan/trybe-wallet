@@ -3,9 +3,13 @@ import { connect, useSelector } from 'react-redux';
 import PropTypes from 'prop-types';
 
 function Header({ ValorDoMapState }) {
-  const sumExpenses = useSelector(({ wallet: { expenses } }) => expenses)
-    .reduce((acc, cur) => acc + (+cur.value * cur.exchangeRates[cur.currency].ask), 0)
-    .toFixed(2);
+  const valorExpenses = useSelector(({ wallet: { expenses } }) => expenses);
+  let sumExpenses = 0;
+  if (valorExpenses) {
+    sumExpenses = valorExpenses
+      .reduce((acc, cur) => acc + (+cur.value * cur.exchangeRates[cur.currency].ask), 0)
+      .toFixed(2);
+  }
 
   return (
     <div>

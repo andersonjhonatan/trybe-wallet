@@ -1,5 +1,5 @@
 // Esse reducer será responsável por tratar o todas as informações relacionadas as despesas
-import { ADD_CURRENCIES, ADD_EXPENSES } from '../actions';
+import { ADD_CURRENCIES, ADD_EXPENSES, REMOVE_TASK } from '../actions';
 
 const INICIO = {
   currencies: [],
@@ -17,6 +17,8 @@ const currReducer = (state = INICIO, action) => {
     return { ...state, currencies: action.currencies };
   case ADD_EXPENSES:
     return { ...state, expenses: [...state.expenses, objeto] };
+  case REMOVE_TASK:
+    return { ...state, expenses: state.expenses.filter((task, i) => i !== action.index) };
   default:
     return state;
   }
