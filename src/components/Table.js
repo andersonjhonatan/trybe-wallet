@@ -16,8 +16,7 @@ function Table() {
             <th>Câmbio utilizado</th>
             <th>Valor convertido</th>
             <th>Moeda de conversão</th>
-            <th>Editar</th>
-            <th>Excluir</th>
+            <th>Editar/Excluir</th>
           </tr>
         </thead>
         <tbody>
@@ -45,8 +44,6 @@ function Table() {
               <td>Real</td>
               <td>
                 <button>Editar</button>
-              </td>
-              <td>
                 <button>Excluir</button>
               </td>
             </tr>
