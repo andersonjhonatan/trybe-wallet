@@ -1,31 +1,20 @@
 import React from 'react';
-import { connect, useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 
-function Header({ ValorDoMapState }) {
-  const valorExpenses = useSelector(({ wallet: { expenses } }) => expenses);
-  const sumExpenses = valorExpenses
-    ? valorExpenses
-      .reduce((acc, cur) => acc + (+cur.value * cur.exchangeRates[cur.currency].ask), 0)
-      .toFixed(2)
-    : 0;
+function Header() {
+  const valorExpenses = useSelector(({ wallet: { expenses } }) => expenses)
+    .reduce((acc, cur) => acc + (+cur.value * cur.exchangeRates[cur.currency].ask), 0)
+    .toFixed(2);
+  const users = useSelector(({ user }) => user.email);
 
   return (
     <div>
       <h2 data-testid="email-field">
-        {ValorDoMapState}
+        {users}
       </h2>
-      <p data-testid="total-field">{sumExpenses}</p>
+      <p data-testid="total-field">{valorExpenses}</p>
       <p data-testid="header-currency-field">BRL</p>
     </div>
   );
 }
-const mapStateToProps = ({ user: { email } }) => ({
-  ValorDoMapState: email,
-});
-
-export default connect(mapStateToProps)(Header);
-
-Header.propTypes = {
-  ValorDoMapState: PropTypes.string.isRequired,
-};
+export default (Header);

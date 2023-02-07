@@ -7,10 +7,7 @@ import { renderWithRouterAndRedux } from './helpers/renderWith';
 
 describe('Testando pagina Login', () => {
   it('teste da rota /', () => {
-    const initialState = {
-      user: { email: '' },
-    };
-    const { history } = renderWithRouterAndRedux(<App />, { initialEntries: ['/'], initialState });
+    const { history } = renderWithRouterAndRedux(<App />);
     const emailInputContainer = screen.getByTestId('email-input');
     expect(emailInputContainer).toBeInTheDocument();
     userEvent.type(emailInputContainer, 'alguem@alguem.com');
@@ -20,8 +17,6 @@ describe('Testando pagina Login', () => {
     const enter = screen.getByRole('button', { name: 'Entrar' });
     expect(enter).toBeInTheDocument();
     userEvent.click(enter);
-    act(() => {
-      history.push('/carteira');
-    });
+    act(() => { history.push('/carteira'); });
   });
 });

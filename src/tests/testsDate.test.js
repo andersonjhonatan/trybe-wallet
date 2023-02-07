@@ -9,7 +9,7 @@ describe('Testing Wallet', () => {
     renderWithRouterAndRedux(<Wallet />);
     const textEmail = screen.getByTestId('email-field');
     expect(textEmail).toBeInTheDocument();
-    /* expect(textEmail.innerHTML).toContain('alguem@alguem.com'); */
+    expect(textEmail.innerHTML).toContain('alguem@alguem.com');
     const despesas = screen.getByTestId('total-field');
     expect(despesas).toBeInTheDocument();
     expect(despesas.innerHTML).toContain('0.00');
@@ -27,9 +27,7 @@ describe('Testing Wallet', () => {
     userEvent.type(inputDescription, 'almoço');
     expect(inputDescription).toBeInTheDocument();
     const selectCurrency = screen.getByTestId('currency-input');
-    await waitFor(() => {
-      expect(selectCurrency).toHaveValue('USD');
-    });
+    await waitFor(() => { expect(selectCurrency).toHaveValue('USD'); });
     userEvent.selectOptions(selectCurrency, 'USD');
     expect(selectCurrency).toBeInTheDocument();
     const selectMethod = screen.getByTestId('method-input');

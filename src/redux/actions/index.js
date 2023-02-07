@@ -1,4 +1,3 @@
-export const UPDATE_EXPENSE = 'UPDATE_EXPENSE';
 export const ADD_EMAIL = 'ADD_EMAIL';
 export const ADD_CURRENCIES = 'ADD_CURRENCIES';
 export const ADD_EXPENSES = 'ADD_EXPENSES';
@@ -34,10 +33,4 @@ export const editExpenses = (payload) => ({
 export const idEdit = (index) => ({
   type: ID_EDIT,
   index,
-});
-
-export const updateExpense = (id, updatedExpense) => ({
-  type: UPDATE_EXPENSE,
-  id,
-  updatedExpense,
 });
