@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listaDeCurrencies } from '../redux/reducers/wallet';
-import { addExpenses } from '../redux/actions';
+import { addExpenses, idEdit } from '../redux/actions';
 
 function WalletForm() {
   const [form, setForm] = useState({
-    value: 0,
+    value: '',
     currency: 'USD',
     method: 'Dinheiro',
     tag: 'Alimentação',
     description: '',
   });
   const moedas = useSelector(({ wallet: { currencies } }) => currencies);
+  const edtExpense = useSelector(({ wallet: { editor } }) => editor);
 
   const dispatch = useDispatch();
   useEffect(() => {
@@ -23,10 +24,8 @@ function WalletForm() {
 
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const data = await response.json();
-    const objeto = {
-      ...form,
-      exchangeRates: data,
-    };
+
+    const objeto = { ...form, exchangeRates: data };
     dispatch(addExpenses(objeto));
     setForm({ ...form, value: '', description: '' });
   };
@@ -35,6 +34,10 @@ function WalletForm() {
     setForm({
       ...form, [name]: value,
     });
+  };
+
+  const handleEdit = () => {
+    dispatch(idEdit(edtExpense[0].id));
   };
 
   return (
@@ -100,7 +103,22 @@ function WalletForm() {
             value={ form.description || '' }
           />
         </label>
-        <button type="submit">Adicionar despesa</button>
+        {!edtExpense
+          ? (
+            <button
+              type="submit"
+            >
+              Adicionar despesa
+            </button>
+          )
+          : (
+            <button
+              type="submit"
+              onClick={ handleEdit }
+            >
+              Editar despesa
+            </button>
+          )}
       </form>
     </div>
   );

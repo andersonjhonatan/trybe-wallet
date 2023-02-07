@@ -1,13 +1,19 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { removeTask } from '../redux/actions';
+import { removeTask, editExpenses, idEdit } from '../redux/actions';
 
 function Table() {
   const addExpense = useSelector(({ wallet: { expenses } }) => expenses);
+
   const dispatch = useDispatch();
 
   const handleClick = (id) => {
     dispatch(removeTask(id));
+  };
+
+  const handleClickEdit = (id) => {
+    dispatch(editExpenses(id));
+    dispatch(idEdit(id));
   };
 
   return (
@@ -50,7 +56,12 @@ function Table() {
               <td>{+(value * exchangeRates[currency].ask).toFixed(2)}</td>
               <td>Real</td>
               <td>
-                <button>Editar</button>
+                <button
+                  data-testid="edit-btn"
+                  onClick={ () => handleClickEdit(id) }
+                >
+                  Editar
+                </button>
                 <button
                   data-testid="delete-btn"
                   type="button"

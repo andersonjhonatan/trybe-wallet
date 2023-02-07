@@ -4,12 +4,11 @@ import PropTypes from 'prop-types';
 
 function Header({ ValorDoMapState }) {
   const valorExpenses = useSelector(({ wallet: { expenses } }) => expenses);
-  let sumExpenses = 0;
-  if (valorExpenses) {
-    sumExpenses = valorExpenses
+  const sumExpenses = valorExpenses
+    ? valorExpenses
       .reduce((acc, cur) => acc + (+cur.value * cur.exchangeRates[cur.currency].ask), 0)
-      .toFixed(2);
-  }
+      .toFixed(2)
+    : 0;
 
   return (
     <div>

@@ -19,8 +19,8 @@ function Login() {
     }
   }, [validacaoEmail, validacaoSenha]);
 
-  const dispatch = useDispatch();
   const history = useHistory();
+  const dispatch = useDispatch();
   const handleSubmit = () => {
     dispatch(addEmail(email));
     history.push('/carteira');
@@ -49,7 +49,7 @@ function Login() {
             value={ senha }
           />
         </label>
-        <button type="button" disabled={ disabled } onClick={ handleSubmit }>
+        <button type="submit" disabled={ disabled } onClick={ handleSubmit }>
           Entrar
         </button>
       </form>
