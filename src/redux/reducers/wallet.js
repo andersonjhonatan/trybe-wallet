@@ -5,6 +5,7 @@ import {
   REMOVE_TASK,
   EDIT_EXPENSES,
   ID_EDIT,
+  UPDATE_EXPENSES,
 } from '../actions';
 
 const INICIO = {
@@ -30,11 +31,37 @@ const currReducer = (state = INICIO, action) => {
   case ID_EDIT:
     return { ...state, idToEdit: action.index };
   case EDIT_EXPENSES:
-    return { ...state, editor: state.expenses.filter((task, i) => i === action.payload) };
+    return { ...state, editor: true };
+  case UPDATE_EXPENSES:
+    return ({
+      ...state,
+      expenses: state.expenses.map((task) => {
+        if (task.id === state.idToEdit) {
+          return {
+            ...action.payload,
+            id: state.idToEdit,
+            exchangeRates: task.exchangeRates };
+        }
+        return task;
+      }),
+      editor: false,
+    });
   default:
     return state;
   }
 };
+
+/* expenses: state.expenses.map((item) => {
+        if (item.id === state.idToEdit) {
+          return {
+            id: state.idToEdit,
+            ...action.payload,
+            exchangeRates: item.exchangeRates };
+        }
+        return item;
+      }),
+      editor: false,
+    }; */
 
 // state.expenses.filter((task, i) => i === action.payload);
 

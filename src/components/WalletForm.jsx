@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { listaDeCurrencies } from '../redux/reducers/wallet';
-import { addExpenses, idEdit } from '../redux/actions';
+import { addExpenses, updateExpenses } from '../redux/actions';
+import { MAINWALLET,
+  FORM,
+  Select,
+  Button } from '../StyledComponents/WalletForm.styles';
 
 function WalletForm() {
   const [form, setForm] = useState({
@@ -21,10 +25,8 @@ function WalletForm() {
 
   const handleSumnit = async (e) => {
     e.preventDefault();
-
     const response = await fetch('https://economia.awesomeapi.com.br/json/all');
     const data = await response.json();
-
     const objeto = { ...form, exchangeRates: data };
     dispatch(addExpenses(objeto));
     setForm({ ...form, value: '', description: '' });
@@ -36,13 +38,14 @@ function WalletForm() {
     });
   };
 
-  const handleEdit = () => {
-    dispatch(idEdit(edtExpense[0].id));
+  const handleEdit = (e) => {
+    e.preventDefault();
+    dispatch(updateExpenses(form));
   };
 
   return (
-    <div>
-      <form onSubmit={ handleSumnit }>
+    <MAINWALLET>
+      <FORM>
         <label htmlFor="value-input">
           Valor:
           <input
@@ -51,11 +54,12 @@ function WalletForm() {
             onChange={ handleChange }
             name="value"
             value={ form.value || '' }
+            placeholder="Digite o valor"
           />
         </label>
         <label htmlFor="currency-input">
           Moeda:
-          <select
+          <Select
             data-testid="currency-input"
             onChange={ handleChange }
             name="currency"
@@ -64,34 +68,38 @@ function WalletForm() {
             {moedas?.map((item, index) => (
               <option key={ index }>{item}</option>
             ))}
-          </select>
+          </Select>
         </label>
         <label htmlFor="method-input">
-          Metodo de Pagamento:
-          <select
+          Método de Pagamento:
+          <Select
+            method
             data-testid="method-input"
             onChange={ handleChange }
             name="method"
           >
-            <option>Dinheiro</option>
-            <option>Cartão de débito</option>
-            <option>Cartão de crédito</option>
-          </select>
+            {
+              ['Dinheiro', 'Cartão de débito', 'Cartão de crédito'].map((item) => (
+                <option key={ item }>{item}</option>
+              ))
+            }
+          </Select>
         </label>
         <label htmlFor="tag-input">
           Tag:
-          <select
+          <Select
+            method
             data-testid="tag-input"
             onChange={ handleChange }
             name="tag"
             value={ form.tag || '' }
           >
-            <option value="Alimentação">Alimentação</option>
-            <option value="Lazer">Lazer</option>
-            <option value="Trabalho">Trabalho</option>
-            <option value="Transporte">Transporte</option>
-            <option value="Saúde">Saúde</option>
-          </select>
+            {
+              ['Alimentação', 'Lazer', 'Trabalho', 'Transporte', 'Saúde'].map((item) => (
+                <option key={ item }>{item}</option>
+              ))
+            }
+          </Select>
         </label>
         <label htmlFor="description-input">
           Descrição:
@@ -105,22 +113,24 @@ function WalletForm() {
         </label>
         {!edtExpense
           ? (
-            <button
+            <Button
               type="submit"
+              onClick={ handleSumnit }
             >
               Adicionar despesa
-            </button>
+            </Button>
           )
           : (
-            <button
+            <Button
               type="submit"
               onClick={ handleEdit }
+              primary
             >
               Editar despesa
-            </button>
+            </Button>
           )}
-      </form>
-    </div>
+      </FORM>
+    </MAINWALLET>
   );
 }
 

@@ -1,11 +1,19 @@
-import React from 'react';
+/* eslint-disable react/jsx-closing-tag-location */
+/* eslint-disable indent */
 import { useSelector, useDispatch } from 'react-redux';
 import { removeTask, editExpenses, idEdit } from '../redux/actions';
+import { MAINTABLE,
+    H1,
+    Th,
+    TR,
+    BUTTON,
+    MainButton,
+    TRTABLE,
+    EXPENSE } from '../StyledComponents/Table.styles';
 
 function Table() {
-  const addExpense = useSelector(({ wallet: { expenses } }) => expenses);
-
   const dispatch = useDispatch();
+  const addExpense = useSelector(({ wallet: { expenses } }) => expenses);
 
   const handleClick = (id) => {
     dispatch(removeTask(id));
@@ -17,23 +25,34 @@ function Table() {
   };
 
   return (
-    <div>
-      <table>
-        <thead>
-          <tr>
-            <th>Descrição</th>
-            <th>Tag</th>
-            <th>Método de pagamento</th>
-            <th>Valor</th>
-            <th>Moeda</th>
-            <th>Câmbio utilizado</th>
-            <th>Valor convertido</th>
-            <th>Moeda de conversão</th>
-            <th>Editar/Excluir</th>
-          </tr>
-        </thead>
-        <tbody>
-          {addExpense?.map(({
+    <MAINTABLE>
+      <div>
+        <H1>Lista de despesas</H1>
+      </div>
+      { addExpense.length >= 1
+       ? <table>
+         <thead>
+           <TR>
+             {
+              ['Descrição',
+                'Tag',
+                'Método de pagamento',
+                'Valor',
+                'Moeda',
+                'Câmbio utilizado',
+                'Valor convertido',
+                'Moeda de conversão',
+                'Editar/Excluir'].map((item) => (
+                // eslint-disable-next-line indent
+                  <Th key={ item }>
+                    {item}
+                  </Th>
+              ))
+            }
+           </TR>
+         </thead>
+         <tbody>
+           {addExpense.map(({
             id,
             value,
             method,
@@ -42,7 +61,7 @@ function Table() {
             exchangeRates,
             currency,
           }, index) => (
-            <tr key={ id }>
+            <TRTABLE key={ id }>
               <td>{description}</td>
               <td>{tag}</td>
               <td>{method}</td>
@@ -55,26 +74,28 @@ function Table() {
               <td>{(+(exchangeRates[currency].ask)).toFixed(2)}</td>
               <td>{+(value * exchangeRates[currency].ask).toFixed(2)}</td>
               <td>Real</td>
-              <td>
-                <button
+              <MainButton>
+                <BUTTON
                   data-testid="edit-btn"
                   onClick={ () => handleClickEdit(id) }
                 >
                   Editar
-                </button>
-                <button
+                </BUTTON>
+                <BUTTON
                   data-testid="delete-btn"
                   type="button"
                   onClick={ () => handleClick(index) }
+                  delete
                 >
                   Excluir
-                </button>
-              </td>
-            </tr>
+                </BUTTON>
+              </MainButton>
+            </TRTABLE>
           ))}
-        </tbody>
-      </table>
-    </div>
+         </tbody>
+       </table>
+      : <EXPENSE>Sem nenhuma despesa</EXPENSE>}
+    </MAINTABLE>
   );
 }
 
